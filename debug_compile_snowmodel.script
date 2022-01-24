@@ -3,6 +3,8 @@
 path=./
 filename1=preprocessor_test.f90
 
+# remove previous git_version.txt
+rm git_version.txt
 
 
 # checks if branch has something pending
