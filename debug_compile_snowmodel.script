@@ -1,0 +1,15 @@
+
+
+path=./
+
+GIT_VERSION := $(shell git describe --abbrev=4 --dirty --always --tags)
+
+echo $GIT_VERSION
+
+
+
+## COARRAY GFORTRAN EXECUTABLE - PARALLEL ##
+#caf -L/glade/u/apps/ch/opt/netcdf/4.7.3/gnu/9.1.0/lib -lnetcdff -Wl,--disable-new-dtags -lnetcdf -lnetcdf -ldl -lm -I/glade/u/apps/ch/opt/netcdf/4.7.3/gnu/9.1.0/include -cpp -DCAF -g -fbounds-check -fbacktrace -finit-real=nan -ffree-line-length-none -ffpe-trap=invalid -mcmodel=medium -I$path -o ../snowmodel_debug $path$filename10 $path$filename11 $path$filename12 $path$filename14 $path$filename15 $path$filename1 $path$filename2 $path$filename3 $path$filename4 $path$filename5 $path$filename6 $path$filename7 $path$filename8 $path$filename9 $path$filename13
+
+
+rm *.o *.mod
