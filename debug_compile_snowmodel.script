@@ -1,15 +1,34 @@
 
 
 path=./
+filename1=preprocessor_test.f90
 
-GIT_VERSION := $(shell git describe --abbrev=4 --dirty --always --tags)
 
-echo $GIT_VERSION
+
+# checks if branch has something pending
+function parse_git_dirty() {
+  git diff --quiet --ignore-submodules HEAD 2>/dev/null; [ $? -eq 1 ] && echo "*"
+}
+
+# gets the current git branch
+function parse_git_branch() {
+  git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e "s/* \(.*\)/\1$(parse_git_dirty)/"
+}
+
+# get last commit hash prepended with @ (i.e. @8a323d0)
+function parse_git_hash() {
+  git rev-parse --short HEAD 2> /dev/null | sed "s/\(.*\)/@\1/"
+}
+
+# DEMO
+GIT_BRANCH=$(parse_git_branch)$(parse_git_hash)
+echo ${GIT_BRANCH} >> git_version.txt
+
 
 
 
 ## COARRAY GFORTRAN EXECUTABLE - PARALLEL ##
-#caf -L/glade/u/apps/ch/opt/netcdf/4.7.3/gnu/9.1.0/lib -lnetcdff -Wl,--disable-new-dtags -lnetcdf -lnetcdf -ldl -lm -I/glade/u/apps/ch/opt/netcdf/4.7.3/gnu/9.1.0/include -cpp -DCAF -g -fbounds-check -fbacktrace -finit-real=nan -ffree-line-length-none -ffpe-trap=invalid -mcmodel=medium -I$path -o ../snowmodel_debug $path$filename10 $path$filename11 $path$filename12 $path$filename14 $path$filename15 $path$filename1 $path$filename2 $path$filename3 $path$filename4 $path$filename5 $path$filename6 $path$filename7 $path$filename8 $path$filename9 $path$filename13
+caf -L/glade/u/apps/ch/opt/netcdf/4.7.3/gnu/9.1.0/lib -lnetcdff -Wl,--disable-new-dtags -lnetcdf -lnetcdf -ldl -lm -I/glade/u/apps/ch/opt/netcdf/4.7.3/gnu/9.1.0/include -cpp -DCAF -g -fbounds-check -fbacktrace -finit-real=nan -ffree-line-length-none -ffpe-trap=invalid -mcmodel=medium -I$path -o ./preprocessor $path$filename1
 
 
 rm *.o *.mod
